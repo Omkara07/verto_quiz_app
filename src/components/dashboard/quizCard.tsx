@@ -1,21 +1,16 @@
 "use client"
 
-import Link from "next/link"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import axios from "axios"
 import { useRouter } from "next/navigation"
+import { createQuiz } from "@/lib/quizData"
 
 export function QuizCard() {
     const router = useRouter()
     const handleQuizStart = async () => {
         try {
-            const res = await axios.post("/api/quiz/start");
-            if (!res.data) {
-                console.log("failed to start quiz")
-            }
-            const { quizId }: any = res?.data
-            router.push(`/quiz/${quizId}`)
+            const quiz = await createQuiz()
+            router.push(`/quiz/${quiz.id}`)
         }
         catch (err) {
             console.log(err)

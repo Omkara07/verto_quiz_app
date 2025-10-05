@@ -44,10 +44,11 @@ export function PreviousQuizzes({ items }: { items: QuizItem[] }) {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {items.map((q) => (
+                                {items.map((q, i: number) => (
                                     <TableRow key={q.id}>
-                                        <TableCell className="text-right">{q.score}%</TableCell>
+                                        <TableCell>Quiz {i + 1}</TableCell>
                                         <TableCell>{new Date(q.createdAt).toLocaleDateString()}</TableCell>
+                                        <TableCell className="text-right">{q.score}/10</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>

@@ -11,10 +11,11 @@ export default async function DashboardPage() {
 
     const quizzes = await db.quiz.findMany({
         where: {
-            id: profile.id
+            userId: profile.id
         },
         include: { answers: true }
     });
+    console.log(quizzes, profile)
     return (
         <main className="px-6 md:px-10 py-6 space-y-6">
             <header className="flex flex-col gap-2">

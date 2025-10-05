@@ -1,14 +1,4 @@
 import { Button } from "@/components/ui/button";
-import CurrentProfile from "@/lib/currentProfile";
-import { redirect } from "next/navigation";
-import {
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from '@clerk/nextjs'
-import { initialProfile } from "@/lib/initialProfile";
 import Link from "next/link";
 
 export default async function Home() {

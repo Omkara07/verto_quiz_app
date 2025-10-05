@@ -2,6 +2,7 @@ import { currentUser } from "@clerk/nextjs/server"
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 
+// for the first time user => checks if user exist if not then create user profile
 export const initialProfile = async () => {
     const user = await currentUser();
     if (!user) {
