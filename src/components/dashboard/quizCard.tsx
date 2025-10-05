@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { createQuiz } from "@/lib/quizData"
+import { motion } from "framer-motion"
 
 export function QuizCard() {
     const router = useRouter()
@@ -11,32 +12,44 @@ export function QuizCard() {
         try {
             const quiz = await createQuiz()
             router.push(`/quiz/${quiz.id}`)
-        }
-        catch (err) {
+        } catch (err) {
             console.log(err)
         }
     }
+
     return (
-        <Card className="border">
-            <CardHeader>
-                <CardTitle className="text-pretty">Take a Quiz</CardTitle>
-                <CardDescription className="text-pretty">
-                    Test your knowledge with a quick quiz. You can review your results afterwards.
-                </CardDescription>
-            </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
-                <ul className="list-disc pl-5 space-y-1">
-                    <li>Timed and untimed modes</li>
-                    <li>Immediate scoring</li>
-                    <li>Detailed explanations on review</li>
-                </ul>
-            </CardContent>
-            <CardFooter className="flex items-center justify-between">
-                <span className="text-xs text-muted-foreground">Takes ~5–10 minutes</span>
-                <Button asChild>
-                    <button onClick={handleQuizStart}>Start Quiz</button>
-                </Button>
-            </CardFooter>
-        </Card>
+        <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+            <Card className="border">
+                <CardHeader>
+                    <CardTitle className="text-pretty">Take a Quiz</CardTitle>
+                    <CardDescription className="text-pretty">
+                        Test your knowledge with a quick quiz. You can review your results afterwards.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="text-sm text-muted-foreground">
+                    <ul className="list-disc pl-5 space-y-1">
+                        <motion.li initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
+                            Timed and untimed modes
+                        </motion.li>
+                        <motion.li initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
+                            Immediate scoring
+                        </motion.li>
+                        <motion.li initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
+                            Detailed explanations on review
+                        </motion.li>
+                    </ul>
+                </CardContent>
+                <CardFooter className="flex items-center justify-between">
+                    <span className="text-xs text-muted-foreground">Takes ~5–10 minutes</span>
+                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                        <Button onClick={handleQuizStart}>Start Quiz</Button>
+                    </motion.div>
+                </CardFooter>
+            </Card>
+        </motion.div>
     )
 }
