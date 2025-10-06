@@ -1,11 +1,7 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import { clerkMiddleware } from '@clerk/nextjs/server'
 
-export default clerkMiddleware(async (auth, req) => {
-    const publicRoutes = ["/", "/sign-in(.*)"];
-    if (!publicRoutes.some((route) => new RegExp(route).test(req.nextUrl.pathname))) {
-        await auth.protect();
-    }
-});
+export default clerkMiddleware()
+
 export const config = {
     matcher: [
         // Skip Next.js internals and all static files, unless found in search params
