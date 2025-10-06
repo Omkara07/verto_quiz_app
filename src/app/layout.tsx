@@ -8,6 +8,7 @@ const inter = Inter({ subsets: ['latin'] });
 import {
   ClerkProvider
 } from '@clerk/nextjs'
+import { ProgressBar } from "@/components/progressBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -81,6 +82,7 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} ${inter.className} antialiased`}
         >
+          <ProgressBar />
           {children}
         </body>
       </html>
