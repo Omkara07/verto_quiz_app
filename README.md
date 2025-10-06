@@ -60,7 +60,7 @@ A modern, interactive, and gamified Quiz Application built with **Next.js 15**, 
 1.  **Clone the repository:**
 
     ```bash
-    git clone [https://github.com/Omkara07/verto_quiz_app.git](https://github.com/Omkara07/verto_quiz_app.git)
+    git clone https://github.com/Omkara07/verto_quiz_app.git
     cd quizapp
     ```
 
