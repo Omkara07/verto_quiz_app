@@ -97,26 +97,88 @@ A modern, interactive, and gamified Quiz Application built with **Next.js 15**, 
 ## Project Structure
 
 ```
-├─ app/
-│ ├─ dashboard/ # Dashboard page
-│ ├─ quiz/ # Quiz pages and components
-│ └─ layout.tsx # Root layout
-├─ components/
-│ ├─ dashboard/
-│ │ ├─ quizCard.tsx
-│ │ └─ previousQuizzes.tsx
-│ ├─ quiz/
-│ │ ├─ questionView.tsx
-│ │ ├─ quizApp.tsx
-│ │ ├─ quizTimer.tsx
-│ │ ├─ reviewSubmit.tsx
-│ │ └─ resultView.tsx
-│ └─ ui/ # Reusable UI components (Card, Button, Table, etc.)
-├─ lib/
-│ ├─ db.ts # Prisma database client
-│ └─ quizData.ts # API functions for quizzes
-├─ types/ # TypeScript types for Quiz, Answers, etc.
-└─ middleware.ts # Removed for Vercel Edge compatibility
+/ (repo root)
+├─ .clerk/
+├─ .next/
+├─ images/
+├─ node_modules/
+├─ prisma/
+│  └─ schema.prisma
+├─ public/
+│  └─ og-image.png
+├─ src/
+│  ├─ app/
+│  │  ├─ (main)/
+│  │  │  ├─ dashboard/
+│  │  │  │  └─ page.tsx                # Dashboard server component (calls dashboardClient)
+│  │  │  └─ layout.tsx                 # layout for main group (optional)
+│  │  ├─ (routes)/
+│  │  │  └─ quiz/
+│  │  │     └─ [id]/
+│  │  │        ├─ loading.tsx          # per-route loading UI for quiz page
+│  │  │        └─ page.tsx             # quiz page that renders QuizApp
+│  │  ├─ api/
+│  │  │  └─ quiz/
+│  │  │     └─ start/
+│  │  │        └─ route.ts             # API route: POST /api/quiz/start
+│  │  ├─ sign-in/
+│  │  │  └─ page.tsx                   # sign-in page (Clerk)
+│  │  ├─ favicon.ico
+│  │  ├─ globals.css
+│  │  └─ layout.tsx                    # app root layout (wraps ProgressBar, providers)
+│  │
+│  ├─ components/
+│  │  ├─ dashboard/
+│  │  │  ├─ dashboardClient.tsx        # client wrapper (animations + interactive parts)
+│  │  │  ├─ previousQuizez.tsx         # previous quizzes table (animated)
+│  │  │  └─ quizCard.tsx               # take-quiz card (Start button + spinner)
+│  │  ├─ landing/
+│  │  │  ├─ CTASection.tsx
+│  │  │  ├─ FeaturesSection.tsx
+│  │  │  └─ HeroSection.tsx
+│  │  ├─ quiz/
+│  │  │  ├─ questionView.tsx
+│  │  │  ├─ quizApp.tsx                # main client-side quiz app (steps, storage)
+│  │  │  ├─ quizTimer.tsx
+│  │  │  ├─ reviewSubmit.tsx
+│  │  │  └─ resultView.tsx
+│  │  ├─ ui/                           # shadcn components
+│  │  │  ├─ card.tsx
+│  │  │  ├─ button.tsx
+│  │  │  ├─ table.tsx
+│  │  │  ├─ empty.tsx
+│  │  │  └─ badge.tsx
+│  │  └─ progressBar.tsx            # nprogress wrapper (client)
+│  │
+│  ├─ lib/
+│  │  ├─ currentProfile.ts
+│  │  ├─ db.ts                         # Prisma client singleton
+│  │  ├─ initialProfile.ts
+│  │  ├─ quizData.ts                   # createQuiz, getQuizData, submitQuiz helpers (server/edge-safe)
+│  │  └─ utils.ts
+│  │
+│  ├─ types/
+│  │  ├─ index.ts                      # QuizData, Question, Option, AnswerMap types
+│  │  └─ middleware.ts                 # (types-only, not runtime middleware)
+│  │
+│  └─ styles/
+│     └─ globals.css                   # if you prefer to keep styles here
+│
+├─ .env
+├─ .gitignore
+├─ components.json
+├─ eslint.config.mjs
+├─ global.d.ts
+├─ next-env.d.ts
+├─ next.config.ts
+├─ package.json
+├─ package-lock.json
+├─ postcss.config.mjs
+├─ README.md
+├─ tailwind.config.ts
+├─ tsconfig.json
+└─ vercel.json
+
 ```
 
 ---
