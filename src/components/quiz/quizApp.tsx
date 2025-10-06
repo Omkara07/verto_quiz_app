@@ -5,6 +5,7 @@ import { useParams } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
+import { AnimatePresence, motion } from "framer-motion"
 import { QuizTimer } from "@/components/quiz/quizTimer"
 import { QuestionView } from "@/components/quiz/questionView"
 import { ReviewSubmit } from "@/components/quiz/reviewSubmit"
@@ -81,8 +82,11 @@ export function QuizApp({ quiz }: { quiz: QuizData }) {
     const handleStart = useCallback(() => {
         const startAt = Date.now()
         const endAt = startAt + DURATION_MIN * 60_000
+
         localStorage.setItem(STORAGE_KEYS.startAt, String(startAt))
         localStorage.setItem(STORAGE_KEYS.endAt, String(endAt))
+
+        setEndAt(endAt)
         setStep("quiz")
         setCurrentIndex(0)
     }, [STORAGE_KEYS.startAt, STORAGE_KEYS.endAt])
@@ -112,7 +116,7 @@ export function QuizApp({ quiz }: { quiz: QuizData }) {
 
     // final submit => compute score + result
     const handleFinalSubmit = useCallback(async () => {
-        const score = await submitQuiz(quiz.id, answers)  // send answers to server
+        const score = await submitQuiz(quiz.id, answers)
         localStorage.setItem(STORAGE_KEYS.score, String(score))
         localStorage.setItem(STORAGE_KEYS.submitted, "true")
         setStep("result")
@@ -122,7 +126,9 @@ export function QuizApp({ quiz }: { quiz: QuizData }) {
     useEffect(() => {
         if (typeof window !== "undefined") {
             const storedEndAt = Number(localStorage.getItem(STORAGE_KEYS.endAt) || 0)
-            setEndAt(storedEndAt)
+            if (storedEndAt) {
+                setEndAt(storedEndAt)
+            }
         }
     }, [STORAGE_KEYS.endAt])
 
@@ -145,7 +151,6 @@ export function QuizApp({ quiz }: { quiz: QuizData }) {
                                     : "Your result"}
                     </p>
                 </div>
-                {/* Top-right live countdown clock during quiz, stops on review/result */}
                 <div className="shrink-0">
                     {isQuizStep && endAt ? (
                         <QuizTimer endAt={endAt} onExpire={handleExpire} />
@@ -155,41 +160,79 @@ export function QuizApp({ quiz }: { quiz: QuizData }) {
                 </div>
             </div>
 
-            {step === "intro" && (
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="text-pretty">Before you begin</CardTitle>
-                        <CardDescription className="text-pretty">Read the instructions carefully.</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                        <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
-                            <li>Duration: {DURATION_MIN} minutes</li>
-                            <li>Questions: {quiz.questions.length}</li>
-                            <li>Quiz will be automatically submitted when time ends.</li>
-                        </ul>
-                        <Separator />
-                        <div className="flex items-center justify-end">
-                            <Button onClick={handleStart}>Start Quiz</Button>
-                        </div>
-                    </CardContent>
-                </Card>
-            )}
+            <AnimatePresence mode="wait">
+                {step === "intro" && (
+                    <motion.div
+                        key="intro"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.4 }}
+                    >
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="text-pretty">Before you begin</CardTitle>
+                                <CardDescription className="text-pretty">Read the instructions carefully.</CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
+                                    <li>Duration: {DURATION_MIN} minutes</li>
+                                    <li>Questions: {quiz.questions.length}</li>
+                                    <li>Quiz will be automatically submitted when time ends.</li>
+                                </ul>
+                                <Separator />
+                                <div className="flex items-center justify-end">
+                                    <Button onClick={handleStart}>Start Quiz</Button>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </motion.div>
+                )}
 
-            {isQuizStep && (
-                <QuestionView
-                    quiz={quiz}
-                    index={currentIndex}
-                    answers={answers}
-                    onSelect={selectAnswer}
-                    onPrev={goPrev}
-                    onNext={goNext}
-                    onSubmitLast={goToReview}
-                />
-            )}
+                {isQuizStep && (
+                    <motion.div
+                        key="quiz"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.4 }}
+                    >
+                        <QuestionView
+                            quiz={quiz}
+                            index={currentIndex}
+                            answers={answers}
+                            onSelect={selectAnswer}
+                            onPrev={goPrev}
+                            onNext={goNext}
+                            onSubmitLast={goToReview}
+                        />
+                    </motion.div>
+                )}
 
-            {isReview && <ReviewSubmit quiz={quiz} answers={answers} onFinalSubmit={handleFinalSubmit} />}
+                {isReview && (
+                    <motion.div
+                        key="review"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        transition={{ duration: 0.4 }}
+                    >
+                        <ReviewSubmit quiz={quiz} answers={answers} onFinalSubmit={handleFinalSubmit} />
+                    </motion.div>
+                )}
 
-            {isResult && <ResultView quiz={quiz} answers={answers} storageKey={STORAGE_KEYS.score} />}
+                {isResult && (
+                    <motion.div
+                        key="result"
+                        initial={{ opacity: 0, y: 40 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -40 }}
+                        transition={{ duration: 0.4 }}
+                    >
+                        <ResultView quiz={quiz} answers={answers} storageKey={STORAGE_KEYS.score} />
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     )
 }

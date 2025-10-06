@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty"
 import { motion } from "framer-motion"
+import { useRouter } from "next/navigation"
+import { createQuiz } from "@/lib/quizData"
 
 type QuizItem = {
     id: string
@@ -17,7 +19,16 @@ type QuizItem = {
 
 export function PreviousQuizzes({ items }: { items: QuizItem[] }) {
     const hasItems = items && items.length > 0
+    const router = useRouter()
 
+    const handleQuizStart = async () => {
+        try {
+            const quiz = await createQuiz()
+            router.push(`/quiz/${quiz.id}`)
+        } catch (err) {
+            console.log(err)
+        }
+    }
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -65,7 +76,7 @@ export function PreviousQuizzes({ items }: { items: QuizItem[] }) {
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: 0.3 + i * 0.1, duration: 0.4 }}
                                         >
-                                            <TableCell>Quiz {i + 1}</TableCell>
+                                            <TableCell>Quiz {items.length - i}</TableCell>
                                             <TableCell>
                                                 {new Date(q.createdAt).toLocaleDateString()}
                                             </TableCell>
@@ -90,7 +101,7 @@ export function PreviousQuizzes({ items }: { items: QuizItem[] }) {
                                 </EmptyHeader>
                                 <EmptyContent>
                                     <Button asChild>
-                                        <Link href="/quiz">Take your first quiz</Link>
+                                        <button onClick={handleQuizStart}>Take your first quiz</button>
                                     </Button>
                                 </EmptyContent>
                             </Empty>

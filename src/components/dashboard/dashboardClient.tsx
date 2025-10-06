@@ -7,7 +7,6 @@ import { PreviousQuizzes } from "@/components/dashboard/previousQuizez";
 export default function DashboardClient({ profile, quizzes }: any) {
     return (
         <main className="px-6 md:px-10 py-6 space-y-6">
-            {/* Header animation */}
             <motion.header
                 className="flex flex-col gap-2"
                 initial={{ opacity: 0, y: -20 }}
@@ -25,7 +24,6 @@ export default function DashboardClient({ profile, quizzes }: any) {
                 </motion.p>
             </motion.header>
 
-            {/* Quiz card with smooth pop-in */}
             <motion.section
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -34,7 +32,6 @@ export default function DashboardClient({ profile, quizzes }: any) {
                 <QuizCard />
             </motion.section>
 
-            {/* Previous quizzes with staggered animation */}
             <motion.section
                 initial="hidden"
                 animate="show"
@@ -45,16 +42,14 @@ export default function DashboardClient({ profile, quizzes }: any) {
                     },
                 }}
             >
-                {quizzes.length > 0 && (
-                    <PreviousQuizzes items={quizzes.map((quiz: any, i: number) => ({
-                        ...quiz,
-                        motionProps: {
-                            initial: { opacity: 0, y: 20 },
-                            animate: { opacity: 1, y: 0 },
-                            transition: { duration: 0.4, delay: i * 0.1 + 0.5 },
-                        },
-                    }))} />
-                )}
+                <PreviousQuizzes items={quizzes.map((quiz: any, i: number) => ({
+                    ...quiz,
+                    motionProps: {
+                        initial: { opacity: 0, y: 20 },
+                        animate: { opacity: 1, y: 0 },
+                        transition: { duration: 0.4, delay: i * 0.1 + 0.5 },
+                    },
+                }))} />
             </motion.section>
         </main>
     );
