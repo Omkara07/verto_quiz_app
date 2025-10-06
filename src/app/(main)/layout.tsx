@@ -6,6 +6,7 @@ import {
     SignedOut,
     UserButton,
 } from '@clerk/nextjs'
+import Link from 'next/link';
 const MainLayout = ({
     children,
 }: Readonly<{
@@ -15,7 +16,7 @@ const MainLayout = ({
         <div className='flex flex-col w-full'>
             <header className="flex justify-between px-10 items-center py-8 shadow-xl gap-4 h-10 w-full">
                 <div>
-                    <h1 className='font-extrabold text-2xl'>VertoQuiz</h1>
+                    <Link href='/'><h1 className='font-extrabold text-2xl'>VertoQuiz</h1></Link>
                 </div>
                 <div>
                     <SignedOut>

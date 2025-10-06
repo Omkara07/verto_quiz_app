@@ -51,7 +51,7 @@ export function PreviousQuizzes({ items }: { items: QuizItem[] }) {
                     {hasItems ? (
                         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                             <Button asChild variant="outline" className="shrink-0 bg-transparent">
-                                <Link href="/quizzes">View all</Link>
+                                View all
                             </Button>
                         </motion.div>
                     ) : null}

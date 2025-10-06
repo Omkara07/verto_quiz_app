@@ -5,15 +5,23 @@ import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { createQuiz } from "@/lib/quizData"
 import { motion } from "framer-motion"
+import { useState } from "react"
+import { Loader2 } from "lucide-react"
 
 export function QuizCard() {
+    const [loading, seetLoading] = useState(false)
     const router = useRouter()
     const handleQuizStart = async () => {
+        seetLoading(true);
         try {
             const quiz = await createQuiz()
             router.push(`/quiz/${quiz.id}`)
         } catch (err) {
             console.log(err)
+            seetLoading(false)
+        }
+        finally {
+            seetLoading(false)
         }
     }
 
@@ -46,7 +54,16 @@ export function QuizCard() {
                 <CardFooter className="flex items-center justify-between">
                     <span className="text-xs text-muted-foreground">Takes ~5–10 minutes</span>
                     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                        <Button onClick={handleQuizStart}>Start Quiz</Button>
+                        <Button onClick={handleQuizStart}>
+                            {loading ? (
+                                <>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    Starting...
+                                </>
+                            ) : (
+                                "Start Quiz"
+                            )}
+                        </Button>
                     </motion.div>
                 </CardFooter>
             </Card>
