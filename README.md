@@ -1,6 +1,6 @@
 # QuizApp
 
-A modern, interactive, and gamified Quiz Application built with **Next.js 13**, **TypeScript**, **Clerk** for authentication, and **Framer Motion** for smooth animations. This app allows users to take timed quizzes, review answers, and track their progress over time.
+A modern, interactive, and gamified Quiz Application built with **Next.js 15**, **TypeScript**, **Clerk** for authentication, **PostgreSQL Database**, **Prisma ORM** and **Framer Motion** for smooth animations. This app allows users to take timed quizzes, review answers, and track their progress over time.
 
 ---
 
@@ -96,6 +96,7 @@ A modern, interactive, and gamified Quiz Application built with **Next.js 13**, 
 
 ## Project Structure
 
+```
 ├─ app/
 │ ├─ dashboard/ # Dashboard page
 │ ├─ quiz/ # Quiz pages and components
@@ -116,6 +117,7 @@ A modern, interactive, and gamified Quiz Application built with **Next.js 13**, 
 │ └─ quizData.ts # API functions for quizzes
 ├─ types/ # TypeScript types for Quiz, Answers, etc.
 └─ middleware.ts # Removed for Vercel Edge compatibility
+```
 
 ---
 
