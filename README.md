@@ -37,7 +37,7 @@ A modern, interactive, and gamified Quiz Application built with **Next.js 15**, 
 
 | Category               | Technology               |
 | :--------------------- | :----------------------- |
-| **Frontend & Backend** | Next.js 13 (App Router)  |
+| **Frontend & Backend** | Next.js 15 (App Router)  |
 | **Language**           | TypeScript               |
 | **Authentication**     | Clerk                    |
 | **Database**           | Prisma + PostgreSQL      |
